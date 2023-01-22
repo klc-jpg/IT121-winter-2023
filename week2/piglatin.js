@@ -1,3 +1,7 @@
+// Name: Kelly Chapman
+// Date: 1/21/23
+// HW2
+
 let word = ' '; //declare empty string variable to hold user input
 const vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']; //declare array of vowels
 word = window.prompt('Enter a word (letters only, minimum 2):'); //prompt user to enter a word
