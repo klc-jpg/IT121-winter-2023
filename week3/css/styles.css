@@ -1,0 +1,91 @@
+/* Name: Kelly Chapman
+   Date: 1/23/23
+   HW3  */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    background-color: #FBF7F4;
+    overflow: visible;
+}
+
+.center {
+    margin: 2% auto 0 auto;
+    width: 100%;
+    padding: 1%;
+}
+
+#wrapper {
+    width: 500px;
+    margin: 30px auto;
+    clear: both;
+}
+
+.content {
+    width: 60%;
+    margin: 2% auto 0 auto;
+}
+
+table {
+    border: 3px solid #392e3a;
+    border-collapse: collapse;
+    width: 500px;
+    margin-top: 10px;
+}
+
+th,
+td {
+    border: 3px solid #392e3a;
+    padding: 8px;
+}
+
+h1,
+h2,
+h3,
+th,
+td {
+    color: #392e3a;
+}
+
+h1,
+th,
+td {
+    text-align: center;
+}
+
+h3 {
+    text-align: left;
+}
+
+h3,
+th {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700 bolder;
+    font-size: 1.25rem;
+}
+
+td {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 3rem;
+    text-align: center;
+    color: #392e3a;
+}
+
+.box {
+    width: 500px;
+    display: block;
+    margin-top: 3%;
+    line-height: 1.6;
+}
