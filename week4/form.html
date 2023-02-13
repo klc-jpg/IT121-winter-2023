@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="css/styles.css" type="text/css" rel="stylesheet">
+    <title>Homework Four</title>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1 class="center">Functions & validation</h1>
+        <form id="myForm" action="#" method="get" onsubmit="return validateForm(this);">
+            <fieldset>
+                <label for="firstname">First Name:</label>
+                <input type="text" name="firstname" id="firstname" class="red" />
+
+                <label for="lastname">Last Name:</label>
+                <input type="text" name="lastname" id="lastname" />
+
+                <label for="password">Password:</label>
+                <input type="text" name="password" id="password" placeholder="8+ characters, includes 1+ uppercase and 1+ lowercase letter" />
+
+                <input onClick="validateForm(myForm);" id="submit" type="button" method="get" value="Check" />
+
+            </fieldset>
+    </div>
+    <!--end wrapper-->
+    </form>
+    <!--end form-->
+    <hr>
+    <div id="message">
+        <div id="pwd_error"></div>
+        <!--error message for password, replaces #message-->
+        <div id="name_error"></div>
+        <!--error message for first and last name fields, replaces #message-->
+        <div id="success"></div>
+        <!--message for successful form completion, replaces #message-->
+    </div>
+    <script>
+        let myForm = document.getElementById('myForm'); //create form object 
+        let fName = ''; //cast variable as string, value is TBD since its based on user input
+        let lName = ''; //cast variable as string, value is TBD and based on user input 
+        let validated = false; //initialize "dummy bool" to potentially change later
+        let pwd = ''; //cast variable as string, value is based on user input therefore TBD for now
+        let up = new RegExp("^(?=.*[A-Z]).+$"); //RegEx for uppercase comparison
+        let low = new RegExp("^(?=.*[a-z]).+$"); //RegEx for lowercase comparison
+
+        function lower(pwd) {
+            pwd = myForm.password.value; //get text of password field
+            if (!low.test(pwd)) { //test password text against lowercase RegEx pattern for a match
+                validated = false;
+            } else {
+                validated = true;
+            }
+            return validated;
+        }
+
+        function upper(pwd) {
+            pwd = myForm.password.value; //get text of password field
+            if (!up.test(pwd)) { //test password text against uppercase RegEx pattern for a match
+                validated = false;
+            } else {
+                validated = true;
+            }
+            return validated;
+        }
+
+        function validatePassword(pwd) {
+            pwd = myForm.password.value; //get text of password field
+            upper(pwd); //call upper() to search password text for uppercase letter
+            lower(pwd); //call lower() to search password text for lowercase letter
+            if ((pwd.length < 8) && ((!upper(pwd)) && (!lower(pwd)))) { //true if password field is blank
+                $('#pwd_error').html('<h3>Valid password = eight characters minimum, with at least one uppercase and one lowercase letter!</h3>'); //throw appropriate error message if condition is true
+                $('#password').html('<style> #password { border: 2px solid #d9381e;}</style>'); //border color of password field changes to red indicating error
+                return false;
+            } else if ((pwd.length < 8) && ((upper(pwd)) && (lower(pwd)))) { //true if password field is less than 8 characters but does contain an upper and lowercase letter
+                $('#pwd_error').html('<h3>Password length of 8 characters minimum please!</h3>'); //throw appropriate error message if condition is true
+                $('#password').html('<style> #password { border: 2px solid #d9381e;}</style>'); //border color of password field changes to red indicating error
+                return false;
+            } else if ((pwd.length < 8) && ((upper(pwd)) && (!lower(pwd)))) { //true if password length < 8 and missing one lowercase letter, but does contain an uppercase letter
+                $('#pwd_error').html('Password length is 8 characters minimum, includes 1+ lowercase letter(s) please!</h3>'); //throw appropriate error message if condition is true
+                $('#password').html('<style> #password { border: 2px solid #d9381e;}</style>'); //border color of password field changes to red indicating error
+                return false;
+            } else if ((pwd.length < 8) && ((!upper(pwd)) && (lower(pwd)))) { //true if password length < 8 and missing one uppercase letter, but does contain a lowercase letter
+                $('#pwd_error').html('<h3>Password length is 8 characters minimum, includes 1+ uppercase letter(s) please!</h3>'); //throw appropriate error message if condition is true
+                $('#password').html('<style> #password { border: 2px solid #d9381e;}</style>'); //border color of password field changes to red indicating error
+                return false;
+            } else if ((pwd.length >= 8) && ((!upper(pwd)) && (lower(pwd)))) { //true if password is missing one uppercase letter, but correct otherwise
+                $('#pwd_error').html('<h3>Password must include at least one uppercase letter!</h3>');
+                $('#password').html('<style> #password { border: 2px solid #d9381e;}</style>'); //border color of password field changes to red indicating error
+                return false;
+            } else if ((pwd.length >= 8) && ((upper(pwd)) && (!lower(pwd)))) { //true if password is missing one lowercase letter, but correct otherwise
+                $('#pwd_error').html('<h3>Password must include at least one lowercase letter!</h3>'); //throw appropriate error message if condition is true
+                $('#password').html('<style> #password { border: 2px solid #d9381e;}</style>'); //border color of password field changes to red indicating error
+                return false;
+            } else { //true if above conditions do not apply, password field is determined to be correct
+                $('#pwd_error').html(''); //remove error message(s) as they no longer apply   
+                $('#password').html('<style> #password { border: 2px solid #392e3a;}</style>'); //replace red border around password input field to original color
+            }
+            return true;
+        }
+
+        function validateForm(myForm) {
+            pwd = myForm.password.value; //get text of password field
+            validatePassword(pwd); //call validatePassword(pwd) function
+            fName = myForm.firstname.value; // get text of firstname field
+            lName = myForm.lastname.value; // get text of lastname field
+            if ((fName.length === 0) && (lName.length >= 1)) { //true if firstname field is blank and lastname field is populated
+                $('#name_error').html('<h3>First name is required please!</h3>'); //throw appropriate error message if condition is true
+                $('#firstname').html('<style> #firstname { border: 2px solid #d9381e;}</style>'); //add red border around firstname input field to indicate error
+                return false; //prevent page reload
+            } else if ((fName.length >= 1) && (lName.length === 0)) { //true if firstname field is populated and lastname field is blank 
+                $('#name_error').html('<h3>Last name is required please!</h3>'); //throw appropriate error message if condition is true
+                $('#lastname').html('<style> #lastname { border: 2px solid #d9381e;}</style>'); //add red border around lastname input field to indicate error
+                return false; //prevent page reload
+            } else if ((fName.length === 0) && (lName.length === 0)) { //true if firstname AND lastname fields are blank
+                $('#name_error').html('<h3>First and last names are required please!</h3>'); //throw appropriate error message if condition is true
+                $('#firstname, #lastname').html('<style> #firstname, #lastname { border: 2px solid #d9381e;}</style>'); //add red border around lastname AND firstname input fields to indicate error
+                return false; //prevent page reload
+            } else if ((fName.length >= 1) && (lName.length >= 1) && (!validatePassword(pwd))) { //true if firstname and lastname are populated, but password errors remain
+                $('#name_error').html(''); //remove name error message(s) 
+                $('#firstname, #lastname').html('<style> #firstname, #lastname { border: 2px solid #392e3a;}</style>'); //replace red border around firstname and/or lastname input fields to original color
+            } else { //applies if firstname, lastname and password are all correct
+                $('#success').html('<h3>Login success!</h3>'); //display success message
+                $('#firstname, #lastname').html('<style> #firstname, #lastname { border: 2px solid #392e3a;}</style>'); //replace red border around firstname and/or lastname input fields to original color
+                $('#name_error').html(''); //remove name error message(s) 
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>
