@@ -1,0 +1,115 @@
+/* Name: Kelly Chapman
+   Authors: Kelly Chapman
+   Date: 2/12/23
+   HW4  */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+#wrapper {
+    max-width: 1200px;
+    width: 98%;
+    margin: 30px auto;
+    clear: both;
+    padding: 1%;
+    overflow: hidden;
+    background-color: #FBF7F4;
+}
+
+form {
+    max-width: 580px;
+    margin: 0 auto 20px auto;
+    position: relative;
+}
+
+form::before {
+    content: "";
+    background-color: #EDBB68;
+    opacity: 0.75;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 3px;
+}
+
+form label {
+    display: block;
+    margin: 0 auto 2px 10%;
+    color: #392e3a;
+    font-size: 1em;
+}
+
+fieldset {
+    display: block;
+    position: relative;
+    height: auto;
+    border-radius: 3px;
+    padding: 5%;
+    border: 3px solid #392e3a;
+    margin: 0 auto;
+}
+
+input[type=text] {
+    display: block;
+    width: 80%;
+    height: 30px;
+    margin: 0 auto 15px auto;
+    padding: 0 2%;
+    border-radius: 3px;
+    border: 2px solid #392e3a;
+}
+
+#submit {
+    display: block;
+    padding: 1%;
+    background-color: #ffffff;
+    width: 10%;
+    border: 2px solid #392e3a;
+    border-radius: 3px;
+}
+
+.center,
+#message {
+    text-align: center;
+}
+
+div#message h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-align: center;
+    font-size: 1.1em;
+    margin: 0 auto;
+}
+
+#name_error,
+#pwd_error {
+    color: #d9381e;
+}
+
+#success {
+    color: #008b8b;
+}
+
+h1 {
+    font-family: 'Bebas Neue', cursive;
+    color: #392e3a;
+}
+
+input[type=submit],
+input[type=text],
+label {
+    color: #392e3a;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+}
