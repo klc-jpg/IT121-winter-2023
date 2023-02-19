@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <title>Homework Five</title>
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1 class="center">Robo Dealer</h1>
+        <button type="button" method="get" id="submit" onClick="dealHand();">Deal Hand</button>
+        <!--type="submit" -->
+        <hr>
+        <div id="card_hand"></div>
+    </div>
+    <!--end wrapper-->
+    <script>
+        let oneHand = 5; //declare count limit
+        let button = document.getElementById('submit'); //connect button element
+        let thisCard = ''; //empty string is populated with value of #card_hand each loop
+        let discard = []; //empty array to isolate card to be displayed
+        let newDeck = []; //empty array that will store drawn cards after each loop
+        let n = 1; //declare var n as integer to be changed later
+
+        const card = { //define card object with 2 properties (value & suits)
+            value: ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'],
+            suits: ['Hearts', 'Clubs', 'Spades', 'Diamonds'],
+        };
+
+        const deck = { //define new object to build card deck.
+            hearts: card.value.map(((Ace, i) => [' ' + Ace + ' of ' + card.suits[0]])), //map function isolates all keys (value property) of card object,
+            clubs: card.value.map(((Ace, i) => [' ' + Ace + ' of ' + card.suits[1]])), //then the suit property of card is identified by index and matched with each key 
+            spades: card.value.map(((Ace, i) => [' ' + Ace + ' of ' + card.suits[2]])), //a new group of value pairs is returned, these are grouped by suit
+            diamonds: card.value.map(((Ace, i) => [' ' + Ace + ' of ' + card.suits[3]])), //store each of the 4 new suit groups in a new property of deck object
+        };
+
+        let fullDeck = [...deck.hearts, ...deck.clubs, ...deck.spades, ...deck.diamonds]; //produce 52 individual card objects: concatenate all properties of deck object in new array
+        n = Math.floor((Math.random()) * (fullDeck.length)); //command returns a random index of fullDeck accounting for fluctuations in its length
+        let oneCard = []; //empty array to temporarily store single values spliced from arr FullDeck
+
+        const anyCard = () => { //card drawing function
+            for (let i = 0; i < oneHand; i++) { //counting loop produces 5 cards
+                n = Math.floor((Math.random()) * (fullDeck.length));
+                for (let i = 0; i < oneHand + 1; n++) { //work in conjunction with first for loop to change value of n each iteration 
+                    oneCard = fullDeck.splice(n, 1); //get one card at random index n, changes length of fullDeck
+                    discard = [...oneCard]; //grab OneCard and store it in an array to display
+                    if (discard.indexOf(oneCard) === -1) { //if oneCard does NOT match any values in discard array (arr.indexOf() returns -1 if false)
+                        newDeck = discard.concat(newDeck); //then add discard to new array storing used cards
+                        n++; //then change the value of index for next iteration
+                        i++; //increment i
+                    } else { //if current value of oneCard DOES match any value of discard
+                        i = i - 1; //rewind count by 1;
+                        do { //draw cards continuously
+                            discard.pop(); //remove last index of discard
+                            n++; //get a new index
+                        }
+                        while (discard.indexOf(oneCard) != -1); //while values are matching
+                        discard = [...oneCard]; //store oneCard in discard after new card is drawn
+                        i++; //then increment i
+                    }
+                    return discard[0]; //returns first position of arr discard, and is an unused card
+                }
+            }
+        };
+
+        const dealHand = () => { //function is called when button is clicked
+            let i = 0;
+            if (fullDeck.length === 52) { //specify length of fullDeck to avoid page refresh for subsequent hands
+                console.log(fullDeck);
+                do {
+                    thisCard += '<h3>- ' + anyCard() + '</h3><br>'; //populate empty string with return of anyCard();
+                    $('#card_hand').html(thisCard); //update #card_hand with results
+                    i++; //increment i
+                }
+                while (i < oneHand); //while i < 5;
+            } else { //true if fullDeck.length < 52, which means at least one hand has been delt
+                thisCard = ''; //clear current hand from document
+                clearHand(); //and call this function
+            }
+        };
+
+        const clearHand = () => { //repeats dealHand() and avoids page refresh
+            let i = 0;
+            if (fullDeck.length > 2) { //fullDeck is long enough to produce more hands of 5 
+                do { //repeat dealHand() process if true
+                    thisCard += '<h3>- ' + anyCard() + '</h3><br>';
+                    $('#card_hand').html(thisCard);
+                    i++;
+                }
+                while (i < oneHand);
+            } else { //only 2 cards remain in fullDeck
+                fullDeck = newDeck.concat(fullDeck); //move cards back into fullDeck to re-activate dealing process 
+                newDeck.splice(0, newDeck.length); //delete all contents of newDeck
+                dealHand(); //deal new hand with a fresh deck once button is clicked
+            }
+        };
+    </script>
+
+</body>
+
+</html>
